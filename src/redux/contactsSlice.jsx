@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getContacts, addContact, deleteContact } from './operations';
+import { getContacts, addContact } from './operations';
 
 const pendingReducer = state => {
   state.isLoading = true;

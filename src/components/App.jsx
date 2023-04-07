@@ -13,7 +13,7 @@
 //   );
 // };
 
-import { useEffect, lazy } from 'react';
+import { lazy } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
