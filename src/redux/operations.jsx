@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
@@ -25,9 +26,15 @@ export const register = createAsyncThunk(
       const { data } = await axios.post('/users/signup', userData);
       // After successful registration, add the token to the HTTP header
       setAuthHeader(data.token);
-      console.log(data);
+      toast.success('You have got registered successfully', {
+        toastId: '',
+      });
+
       return data;
     } catch (error) {
+      toast.error(`Something has gone wrong. ${error.message}`, {
+        toastId: '',
+      });
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -44,9 +51,15 @@ export const logIn = createAsyncThunk(
       const { data } = await axios.post('/users/login', userData);
       // After successful login, add the token to the HTTP header
       setAuthHeader(data.token);
-      console.log(data);
+      toast.success('You have logged in successfully', {
+        toastId: '',
+      });
+
       return data;
     } catch (error) {
+      toast.error(`Something has gone wrong. ${error.message}`, {
+        toastId: '',
+      });
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -61,7 +74,13 @@ export const logOut = createAsyncThunk('user/logOut', async (_, thunkAPI) => {
     await axios.post('/users/logout');
     // After a successful logout, remove the token from the HTTP header
     clearAuthHeader();
+    toast.success('You have logged out successfully', {
+      toastId: '',
+    });
   } catch (error) {
+    toast.error(`Something has gone wrong. ${error.message}`, {
+      toastId: '',
+    });
     return thunkAPI.rejectWithValue(error.message);
   }
 });
@@ -86,7 +105,7 @@ export const getUserInfo = createAsyncThunk(
       // If there is a token, add it to the HTTP header and perform the request
       setAuthHeader(persistedToken);
       const { data } = await axios.get('/users/current');
-      console.log(data);
+
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -124,7 +143,21 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {
     try {
-      const { data } = await axios.delete('/contacts', contactId);
+      const { data } = await axios.delete(`/contacts/${contactId}`);
+
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const editContact = createAsyncThunk(
+  'contacts/editContact',
+  async ({ contactData, contactId }, thunkAPI) => {
+    try {
+      const { data } = await axios.patch(`/contacts/${contactId}`, contactData);
+
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

@@ -1,16 +1,23 @@
 @import-normalize; /* bring in normalize.css styles */
+@import 'react-toastify/dist/ReactToastify.css';
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  padding-left: 200px;
+  padding-right: 200px;
+  font-family: 'Source Serif Pro', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: flex;
-  justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+
+  background: linear-gradient(
+    178.6deg,
+    rgb(232, 245, 253) 3.3%,
+    rgb(252, 253, 255) 109.6%
+  );
+}
+html {
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 code {
@@ -19,8 +26,18 @@ code {
 }
 
 h1,
-h2 {
-  margin-top: 0;
-  margin-bottom: 25px;
-  color: #504077;
+h2,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

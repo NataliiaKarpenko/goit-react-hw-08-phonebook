@@ -1,9 +1,9 @@
-import { LoginForm } from '../components/LoginForm/LoginForm';
+import { ContactsList } from 'components/ContactsList/ContactsList';
+import { FormInput } from 'components/Form/FormInput';
 
 const styles = {
   container: {
     paddingTop: 80,
-    paddingBottom: 40,
     minHeight: 'calc(100vh - 250px)',
     display: 'flex',
     flexDirection: 'column',
@@ -11,10 +11,14 @@ const styles = {
   },
 };
 
-export default function Login() {
+const ContactsPage = () => {
   return (
     <div style={styles.container}>
-      <LoginForm />
+      <FormInput />
+
+      <ContactsList />
     </div>
   );
-}
+};
+
+export default ContactsPage;

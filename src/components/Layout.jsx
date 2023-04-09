@@ -1,17 +1,26 @@
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
-// import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'react-toastify';
 
 import { AppBar } from './AppBar/AppBar';
+import { Footer } from './Footer/Footer';
+import { Loader } from './Loader/Loader';
 
 export const Layout = () => {
   return (
-    <div>
+    <>
       <AppBar />
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
-      {/* <Toaster position="top-right" reverseOrder={false} /> */}
-    </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
+      <Footer />
+    </>
   );
 };

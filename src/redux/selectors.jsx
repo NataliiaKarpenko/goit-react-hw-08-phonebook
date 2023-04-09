@@ -13,8 +13,12 @@ export const selectFilterValue = state => state.filter.value;
 export const selectVisibleContacts = createSelector(
   [selectContacts, selectFilterValue],
   (contacts, filterValue) => {
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterValue.toLowerCase())
-    );
+    return contacts
+      .filter(contact =>
+        contact.name.toLowerCase().includes(filterValue.toLowerCase())
+      )
+      .sort((initialContact, nextContact) =>
+        initialContact.name.localeCompare(nextContact.name)
+      );
   }
 );

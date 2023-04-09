@@ -1,13 +1,14 @@
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { StyledNavLink } from './Navigation.styled';
+import telephoneBook from '../../images/telephoneBook.jpg';
 
 export const Navigation = () => {
-  const { isLoggedIn } = useAuth();
-
   return (
     <nav>
-      <NavLink to="/">Home</NavLink>
-      {isLoggedIn && <NavLink to="/phonebook">My phonebook</NavLink>}
+      <StyledNavLink to="/">
+        {' '}
+        <img src={telephoneBook} alt="telephone-book" width="40" />
+        Home
+      </StyledNavLink>
     </nav>
   );
 };

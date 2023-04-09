@@ -1,37 +1,40 @@
+import { Grid } from '@mui/material';
 import styled from 'styled-components';
 
-export const ContactsItemStyled = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-
-  & span {
+export const ContactsItemStyled = styled(Grid)`
+  & .Name,
+  & .Number {
+    height: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
     font-size: 18px;
     color: #504077;
-  }
-
-  & .name {
-    font-style: italic;
     font-weight: 500;
   }
 
-  & button {
-    width: 150px;
+  & span {
+    font-style: italic;
+  }
+
+  & .FunctionBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 30px;
+  }
 
-    font-size: 15px;
-    color: #8293e3;
+  & .FunctionBtn:hover {
+    scale: 1.1;
+  }
 
-    border: 1px solid #8293e3;
-    border-radius: 5px;
-    background-color: white;
+  & button {
+    border: none;
+    background-color: transparent;
+    transition: all 80s ease-in-out;
   }
 
   & button:hover {
-    color: white;
-    border: 1px solid transparent;
-    background-color: #8293e3;
+    scale: 1.1;
   }
 `;

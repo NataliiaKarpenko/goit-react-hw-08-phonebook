@@ -7,19 +7,12 @@ const initialState = {
     email: null,
   },
   token: null,
-  isLoading: true,
   isLoggedIn: false,
   isRefreshing: false,
 };
 
 const pendingReducer = state => {
-  state.error = null;
-  state.isLoading = true;
-};
-
-const errorReducer = (state, { payload }) => {
-  state.error = payload;
-  state.isLoading = false;
+  state.isRefreshing = true;
 };
 
 export const userSlice = createSlice({
@@ -33,55 +26,40 @@ export const userSlice = createSlice({
       .addCase(register.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
-        state.isLoading = false;
         state.isLoggedIn = true;
-        state.error = null;
+        state.isRefreshing = false;
       })
-      .addCase(register.rejected, errorReducer)
 
       // LOGIN
       .addCase(logIn.pending, pendingReducer)
       .addCase(logIn.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
-        state.isLoading = false;
         state.isLoggedIn = true;
-        state.error = null;
+        state.isRefreshing = false;
       })
-      .addCase(logIn.rejected, errorReducer)
 
       // LOGOUT
       .addCase(logOut.pending, pendingReducer)
       .addCase(logOut.fulfilled, state => {
-        state.status = 'resolved';
         state.user = {
           name: null,
           email: null,
         };
         state.token = null;
-        state.isLoading = false;
         state.isLoggedIn = false;
-        state.error = null;
+        state.isRefreshing = false;
       })
-      .addCase(logOut.rejected, errorReducer)
 
       // GETUSERINFO
-      .addCase(getUserInfo.pending, state => {
-        state.isLoading = true;
-        state.isRefreshing = true;
-        state.error = null;
-      })
+      .addCase(getUserInfo.pending, pendingReducer)
       .addCase(getUserInfo.fulfilled, (state, { payload }) => {
         state.user = payload;
-        state.isLoading = false;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.error = null;
       })
-      .addCase(getUserInfo.rejected, (state, { payload }) => {
+      .addCase(getUserInfo.rejected, state => {
         state.isRefreshing = false;
-        state.isLoading = false;
-        state.error = payload;
       }),
 });
 

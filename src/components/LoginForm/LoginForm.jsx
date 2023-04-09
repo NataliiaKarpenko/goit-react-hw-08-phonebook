@@ -1,42 +1,75 @@
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import Button from '@mui/joy/Button';
+import { TextField } from '@mui/material';
+
 import { logIn } from 'redux/operations';
+import {
+  StyledLoginForm,
+  StyledInputPassword,
+  StyledVisibilityBtn,
+} from './LoginForm.styled';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
 
+  const [passwordType, setPasswordType] = useState('password');
+
+  const togglePassword = () => {
+    if (passwordType === 'password') {
+      setPasswordType('text');
+      return;
+    }
+    setPasswordType('password');
+  };
+
   const onSubmitHandler = e => {
     e.preventDefault();
+
     const form = e.currentTarget;
-    dispatch(
-      logIn({
-        email: form.elements.email.value,
-        password: form.elements.password.value,
-      })
-    );
+    const formData = {
+      email: form.elements.email.value,
+      password: form.elements.password.value,
+    };
+    console.log(formData);
+
+    dispatch(logIn(formData));
+
     form.reset();
   };
 
   return (
-    <form onSubmit={onSubmitHandler} autoComplete="off">
-      <label>
-        Email
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
+    <StyledLoginForm onSubmit={onSubmitHandler}>
+      <TextField
+        required
+        variant="outlined"
+        label="Email"
+        type="email"
+        name="email"
+        className="Input"
+      />
+      <div>
+        <StyledInputPassword
           required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
+          variant="outlined"
+          label="Password"
           name="password"
-          placeholder="Enter your password"
-          required
+          minLength="4"
+          className="Input PasswordInput"
+          type={passwordType}
         />
-      </label>
-      <button type="submit">Sign in</button>
-    </form>
+        <StyledVisibilityBtn type="button" onClick={togglePassword}>
+          {passwordType === 'password' ? (
+            <VisibilityOff color="action" />
+          ) : (
+            <Visibility color="primary" />
+          )}
+        </StyledVisibilityBtn>
+      </div>
+      <Button type="submit" className="SubmitBtn">
+        Log in
+      </Button>
+    </StyledLoginForm>
   );
 };

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+import Button from '@mui/joy/Button';
+import { toast } from 'react-toastify';
 
 import { FormInputStyled, LabelStyled } from './FormInput.styled';
 import { selectContacts } from '../../redux/selectors';
-import { addContact } from 'redux/operations';
+import { addContact } from '../../redux/operations';
 
 export const FormInput = () => {
   const [name, setName] = useState('');
@@ -33,14 +34,15 @@ export const FormInput = () => {
     const contact = {
       name,
       number,
-      id: nanoid(),
     };
 
     const isExisting = contacts.find(
       item => item.name.toLowerCase() === contact.name.toLowerCase()
     );
     if (isExisting) {
-      alert(`${contact.name} is already in contacts`);
+      toast.warn(`${contact.name} is already in contacts`, {
+        toastId: '',
+      });
       return;
     }
 
@@ -53,7 +55,7 @@ export const FormInput = () => {
   return (
     <FormInputStyled onSubmit={onSubmit}>
       <LabelStyled>
-        Name
+        <span>Name</span>
         <input
           type="text"
           name="name"
@@ -80,7 +82,9 @@ export const FormInput = () => {
           onChange={onEnteringInfo}
         />
       </LabelStyled>
-      <button type="submit">Add the contact</button>
+      <Button type="submit" className="FormInputBtn">
+        Add the contact
+      </Button>
     </FormInputStyled>
   );
 };

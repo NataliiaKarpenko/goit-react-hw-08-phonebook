@@ -1,8 +1,29 @@
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { TextField } from '@mui/material';
+import Button from '@mui/joy/Button';
+import { toast } from 'react-toastify';
+
 import { register } from '../../redux/operations';
+import {
+  StyledRegisterForm,
+  StyledInputPassword,
+  StyledVisibilityBtn,
+} from './RegisterForm.styled';
 
 export const RegisterForm = () => {
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
+
+  const [passwordType, setPasswordType] = useState('password');
+
+  const togglePassword = () => {
+    if (passwordType === 'password') {
+      setPasswordType('text');
+      return;
+    }
+    setPasswordType('password');
+  };
 
   const onSubmitHandler = e => {
     e.preventDefault();
@@ -13,40 +34,53 @@ export const RegisterForm = () => {
       email: form.elements.email.value,
       password: form.elements.password.value,
     };
+
+    if (formData.password.length < 4) {
+      return toast.info('Passwords must be at least 4 characters long!');
+    }
+
     dispatch(register(formData));
     form.reset();
   };
   return (
-    <form onSubmit={onSubmitHandler}>
-      <label>
-        Username
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your username"
+    <StyledRegisterForm onSubmit={onSubmitHandler}>
+      <TextField
+        required
+        variant="outlined"
+        label="Username"
+        type="text"
+        name="name"
+        className="Input"
+      />
+      <TextField
+        required
+        variant="outlined"
+        label="Email"
+        type="email"
+        name="email"
+        className="Input"
+      />
+      <div>
+        <StyledInputPassword
           required
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          required
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type="password"
+          variant="outlined"
+          label="Password"
           name="password"
-          placeholder="Enter your password"
-          minLength="7"
-          required
+          minLength="4"
+          className="Input PasswordInput"
+          type={passwordType}
         />
-      </label>
-      <button type="submit">Register</button>
-    </form>
+        <StyledVisibilityBtn type="button" onClick={togglePassword}>
+          {passwordType === 'password' ? (
+            <VisibilityOff color="action" />
+          ) : (
+            <Visibility color="primary" />
+          )}
+        </StyledVisibilityBtn>
+      </div>
+      <Button type="submit" className="SubmitBtn">
+        Register
+      </Button>
+    </StyledRegisterForm>
   );
 };
