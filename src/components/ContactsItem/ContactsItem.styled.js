@@ -22,6 +22,7 @@ export const ContactsItemStyled = styled(Grid)`
     justify-content: center;
     align-items: center;
     height: 30px;
+    cursor: pointer;
   }
 
   & .FunctionBtn:hover {
